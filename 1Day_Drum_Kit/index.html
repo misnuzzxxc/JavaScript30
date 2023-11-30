@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JS Drum Kit</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- div로 묶어서 각 키보드 별로의 키값을 선언하기 위해 class keys 선언 -->
+    <div class="keys">
+        <div data-key="65" class="key">
+            <kbd>A</kbd>
+            <span class="sound">clap</span>
+        </div>
+        <div data-key="83" class="key">
+            <kbd>S</kbd>
+            <span class="sound">hihat</span>
+        </div>
+        <div data-key="68" class="key">
+            <kbd>D</kbd>
+            <span class="sound">kick</span>
+        </div>
+        <div data-key="70" class="key">
+            <kbd>F</kbd>
+            <span class="sound">openhat</span>
+        </div>
+        <div data-key="71" class="key">
+            <kbd>G</kbd>
+            <span class="sound">boom</span>
+        </div>
+        <div data-key="72" class="key">
+            <kbd>H</kbd>
+            <span class="sound">ride</span>
+        </div>
+        <div data-key="74" class="key">
+            <kbd>J</kbd>
+            <span class="sound">snare</span>
+        </div>
+        <div data-key="75" class="key">
+            <kbd>K</kbd>
+            <span class="sound">tom</span>
+        </div>
+        <div data-key="76" class="key">
+            <kbd>L</kbd>
+            <span class="sound">tink</span>
+        </div>
+    </div>
+    <!-- 키보드 입력하는 데이터 키값에 사운드 불러오기 -->
+    <audio data-key="65" src="Sound/clap.wav"></audio>
+    <audio data-key="83" src="Sound/hihat.wav"></audio>
+    <audio data-key="68" src="Sound/kick.wav"></audio>
+    <audio data-key="70" src="Sound/openhat.wav"></audio>
+    <audio data-key="71" src="Sound/boom.wav"></audio>
+    <audio data-key="72" src="Sound/ride.wav"></audio>
+    <audio data-key="74" src="Sound/snare.wav"></audio>
+    <audio data-key="75" src="Sound/tom.wav"></audio>
+    <audio data-key="76" src="Sound/tink.wav"></audio>
+
+    <script>
+        // 키보드 입력해서 나오는 효과를 
+        function removeTransition(e) {   // 만약 프로퍼티 이름이 트랜스폼과 안맞는 경우 그대로 함수 종료 
+            if (e.propertyName !== 'transform') return;
+            // 키보드 입력했던 효과 사라진 후 다시 원상 복구를 위해 playing 제거 
+            this.classList.remove('playing');
+        }
+        //  키보드 입력했을때 입력한 소리 출력 하게 함수 선언 
+        function playSound(e) {
+            // audio의 data-key속성값이 입력받은 키의 값인 앨리먼트를 가져와 audio 상수에 할당
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            // class가 key인 앨리먼트의 data-key속성값이 입력받은 키의 값인 앨리먼트를 가져와 key 상수에 할당
+            const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+
+            // 만약 입력된 키가 정상적인(HTML코드에 태그로 등록된) 키가 아니라면 함수를 종료
+            if (!audio) return;
+            // 화면에 해당 키가 눌렸는지 CSS로 변화를 주기 위해 입력받은 키에 해당하는 key 클래스를 가진 앨리먼트 class에 'playing'을 추가
+            key.classList.add('playing');
+            // 입력받은 키에 해당하는 audio태그의 src의 재생시간을 0으로 할당
+            // 재생시간을 0으로 할당하는 이유는 동일한 키의 연속 입력 시 먼저 입력된 소리가 끝날 때 까지 기다리지 않고 소리를 처음부터 다시 재생 -> 반복해서 입력 가능
+            audio.currentTime = 0;
+            // 입력받은 키에 해당하는 audio태그의 src 재생
+            audio.play();
+        }
+        
+        // class가 key인 태그들을 가져와 상수 keys에 할당
+        const keys = Array.from(document.querySelectorAll('.key'));
+        // keys 배열을 forEach 메서드를 이용해 배열의 앨리먼트 key들에 removeTransition함수를 실행하는 'transitionend'이벤트를 추가한다.
+        // 'transitionend'이벤트는 변화(css transition)가 끝났을 때 실행되는 이벤트이다.
+        keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+        // 키보드 버튼이 눌렸을 때 playing 함수를 실행
+        window.addEventListener('keydown', playSound);
+    </script>
+
+
+</body>
+
+</html>

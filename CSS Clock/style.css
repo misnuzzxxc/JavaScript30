@@ -1,0 +1,67 @@
+html {
+    background: #018DED url(https://unsplash.it/1500/1000?image=881&blur=5);
+    background-size: cover;
+    font-family: 'helvetica neue';
+    text-align: center;
+    font-size: 10px;
+}
+
+
+body {
+    margin: 0;
+    font-size: 2rem;
+    display: flex;
+    flex: 1;
+    min-height: 100vh;
+    align-items: center;
+}
+
+.digital {
+    display: inline-block;
+    width: 33rem;
+    padding-top: 5rem;
+    padding-left: 10rem;
+    font-size: 5rem;
+    letter-spacing: -0.1rem;
+    word-spacing: -1rem;
+    color: #fff;
+}
+
+.clock {
+    width: 30rem;
+    height: 30rem;
+    border: 20px solid white;
+    border-radius: 50%;
+    margin: 50px auto;
+    position: relative;
+    padding: 2rem;
+    box-shadow:
+        0 0 0 4px rgba(0, 0, 0, 0.1),
+        inset 0 0 0 3px #EFEFEF,
+        inset 0 0 10px black,
+        0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.clock-face {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform: translateY(-3px);
+    /* account for the height of the clock hands */
+}
+
+.hand {
+    width: 50%;
+    height: 6px;
+    background: black;
+    position: absolute;
+    top: 50%;
+    /* transform-origin은 transform이 일어날 위치를 정할 수 있다. */
+    transform-origin: 100%;
+    /* transform: rotate(xdeg)는 x만큼 각도를 회전시킨다. */
+    transform: rotate(90deg);
+      /* transition은 transform이 일어날 때 변하는 속도를 설정할 수 있다. */
+    transition: all 0.05s;
+    /* transform이 일어날 때 어떻게 움직임을 정하는 속성 */
+    transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+}
